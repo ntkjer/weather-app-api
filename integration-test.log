@@ -1,0 +1,711 @@
+✔ Scenario: Add a measurement with valid (numeric) values
+✔ Scenario: Cannot add a measurement with invalid values
+✔ Scenario: Cannot add a measurement without a timestamp
+✘ Scenario: Get a specific measurement
+  ✔ Given I have submitted new measurements as follows:
+        | timestamp                  | temperature | dewPoint | precipitation |
+        | "2015-09-01T16:00:00.000Z" | 27.1        | 16.7     | 0             |
+        | "2015-09-01T16:10:00.000Z" | 27.3        | 16.9     | 0             |
+        | "2015-09-01T16:20:00.000Z" | 27.5        | 17.1     | 0             |
+        | "2015-09-01T16:30:00.000Z" | 27.4        | 17.3     | 0             |
+        | "2015-09-01T16:40:00.000Z" | 27.2        | 17.2     | 0             |
+        | "2015-09-02T16:00:00.000Z" | 28.1        | 18.3     | 0             |
+  ✔ When I get a measurement for "2015-09-01T16:20:00.000Z"
+  ✔ Then the response has a status code of 200
+  ✘ And the response body is:
+        | timestamp                  | temperature | dewPoint | precipitation |
+        | "2015-09-01T16:20:00.000Z" | 27.5        | 17.1     | 0             |
+    expected { Object (dewPoint, precipitation, ...) } to deeply equal { Object (timestamp, temperature, ...) }
+        + expected - actual
+
+         {
+        -  "dewPoint": 17.3
+        +  "dewPoint": 17.1
+           "precipitation": 0
+        -  "temperature": 27.4
+        -  "timestamp": "2015-09-01T16:30:00.000Z"
+        +  "temperature": 27.5
+        +  "timestamp": "2015-09-01T16:20:00.000Z"
+         }
+
+
+      ═════ begin console log ═════
+       * Serving Flask app "weathertracker" (lazy loading)
+       * Environment: production
+         WARNING: Do not use the development server in a production environment.
+         Use a production WSGI server instead.
+       * Debug mode: off
+       * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+      127.0.0.1 - - [25/Feb/2019 15:54:36] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:36] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:36] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:36] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:36] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:36] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:36] "GET /measurements/2015-09-01T16:20:00.000Z HTTP/1.1" 200 -
+
+      ══════ end console log ══════
+
+      ═════ begin request log ═════
+      [ { type: 'request',
+          data:
+           { debugId: 4,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 93 },
+             body:
+              '{"timestamp":"2015-09-01T16:00:00.000Z","temperature":27.1,"dewPoint":16.7,"precipitation":0}' } },
+        { type: 'request',
+          data:
+           { debugId: 5,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 93 },
+             body:
+              '{"timestamp":"2015-09-01T16:10:00.000Z","temperature":27.3,"dewPoint":16.9,"precipitation":0}' } },
+        { type: 'request',
+          data:
+           { debugId: 6,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 93 },
+             body:
+              '{"timestamp":"2015-09-01T16:20:00.000Z","temperature":27.5,"dewPoint":17.1,"precipitation":0}' } },
+        { type: 'request',
+          data:
+           { debugId: 7,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 93 },
+             body:
+              '{"timestamp":"2015-09-01T16:30:00.000Z","temperature":27.4,"dewPoint":17.3,"precipitation":0}' } },
+        { type: 'request',
+          data:
+           { debugId: 8,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 93 },
+             body:
+              '{"timestamp":"2015-09-01T16:40:00.000Z","temperature":27.2,"dewPoint":17.2,"precipitation":0}' } },
+        { type: 'request',
+          data:
+           { debugId: 9,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 93 },
+             body:
+              '{"timestamp":"2015-09-02T16:00:00.000Z","temperature":28.1,"dewPoint":18.3,"precipitation":0}' } },
+        { type: 'response',
+          data:
+           { debugId: 4,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '100',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:00:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:36 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 16.7,
+                precipitation: 0,
+                temperature: 27.1,
+                timestamp: '2015-09-01T16:00:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 6,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '100',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:20:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:36 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 17.1,
+                precipitation: 0,
+                temperature: 27.5,
+                timestamp: '2015-09-01T16:20:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 8,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '100',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:40:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:36 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 17.2,
+                precipitation: 0,
+                temperature: 27.2,
+                timestamp: '2015-09-01T16:40:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 5,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '100',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:10:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:36 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 16.9,
+                precipitation: 0,
+                temperature: 27.3,
+                timestamp: '2015-09-01T16:10:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 7,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '100',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:30:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:36 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 17.3,
+                precipitation: 0,
+                temperature: 27.4,
+                timestamp: '2015-09-01T16:30:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 9,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '100',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-02T16:00:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:36 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 18.3,
+                precipitation: 0,
+                temperature: 28.1,
+                timestamp: '2015-09-02T16:00:00.000Z' } } },
+        { type: 'request',
+          data:
+           { debugId: 10,
+             uri:
+              'http://127.0.0.1:8000/measurements/2015-09-01T16:20:00.000Z',
+             method: 'get',
+             headers:
+              { accept: 'application/json',
+                host: '127.0.0.1:8000',
+                'content-length': 0 } } },
+        { type: 'response',
+          data:
+           { debugId: 10,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '100',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:36 GMT' },
+             statusCode: 200,
+             body:
+              { dewPoint: 17.3,
+                precipitation: 0,
+                temperature: 27.4,
+                timestamp: '2015-09-01T16:30:00.000Z' } } } ]
+      ══════ end request log ══════
+
+✔ Scenario: Get a measurement that does not exist
+✘ Scenario: Get stats for a well-reported metric
+  ✔ Given I have submitted new measurements as follows:
+        | timestamp                  | temperature | dewPoint |
+        | "2015-09-01T16:00:00.000Z" | 27.1        | 16.9     |
+        | "2015-09-01T16:10:00.000Z" | 27.3        |          |
+        | "2015-09-01T16:20:00.000Z" | 27.5        | 17.1     |
+        | "2015-09-01T16:30:00.000Z" | 27.4        | 17.3     |
+        | "2015-09-01T16:40:00.000Z" | 27.2        |          |
+        | "2015-09-01T17:00:00.000Z" | 28.1        | 18.3     |
+  ✔ When I get stats with parameters:
+        | param        | value                    |
+        | stat         | min                      |
+        | stat         | max                      |
+        | stat         | average                  |
+        | metric       | temperature              |
+        | fromDateTime | 2015-09-01T16:00:00.000Z |
+        | toDateTime   | 2015-09-01T17:00:00.000Z |
+  ✔ Then the response has a status code of 200
+  ✘ And the response body is an array of:
+        | metric        | stat      | value |
+        | "temperature" | "min"     | 27.1  |
+        | "temperature" | "max"     | 27.5  |
+        | "temperature" | "average" | 27.3  |
+    expected [ Array(3) ] to deeply equal [ Array(3) ]
+        + expected - actual
+
+           }
+           {
+             "metric": "temperature"
+             "stat": "max"
+        -    "value": 27.4
+        +    "value": 27.5
+           }
+           {
+             "metric": "temperature"
+             "stat": "average"
+
+
+      ═════ begin console log ═════
+       * Serving Flask app "weathertracker" (lazy loading)
+       * Environment: production
+         WARNING: Do not use the development server in a production environment.
+         Use a production WSGI server instead.
+       * Debug mode: off
+       * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+      127.0.0.1 - - [25/Feb/2019 15:54:38] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:38] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:38] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:38] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:38] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:38] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:38] "GET /stats?stat=min&stat=max&stat=average&metric=temperature&fromDateTime=2015-09-01T16%3A00%3A00.000Z&toDateTime=2015-09-01T17%3A00%3A00.000Z HTTP/1.1" 200 -
+
+      ══════ end console log ══════
+
+      ═════ begin request log ═════
+      [ { type: 'request',
+          data:
+           { debugId: 18,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 75 },
+             body:
+              '{"timestamp":"2015-09-01T16:00:00.000Z","temperature":27.1,"dewPoint":16.9}' } },
+        { type: 'request',
+          data:
+           { debugId: 19,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 59 },
+             body:
+              '{"timestamp":"2015-09-01T16:10:00.000Z","temperature":27.3}' } },
+        { type: 'request',
+          data:
+           { debugId: 20,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 75 },
+             body:
+              '{"timestamp":"2015-09-01T16:20:00.000Z","temperature":27.5,"dewPoint":17.1}' } },
+        { type: 'request',
+          data:
+           { debugId: 21,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 75 },
+             body:
+              '{"timestamp":"2015-09-01T16:30:00.000Z","temperature":27.4,"dewPoint":17.3}' } },
+        { type: 'request',
+          data:
+           { debugId: 22,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 59 },
+             body:
+              '{"timestamp":"2015-09-01T16:40:00.000Z","temperature":27.2}' } },
+        { type: 'request',
+          data:
+           { debugId: 23,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 75 },
+             body:
+              '{"timestamp":"2015-09-01T17:00:00.000Z","temperature":28.1,"dewPoint":18.3}' } },
+        { type: 'response',
+          data:
+           { debugId: 21,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '80',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:30:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:38 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 17.3,
+                temperature: 27.4,
+                timestamp: '2015-09-01T16:30:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 22,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '62',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:40:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:38 GMT' },
+             statusCode: 201,
+             body: { temperature: 27.2, timestamp: '2015-09-01T16:40:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 18,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '80',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:00:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:38 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 16.9,
+                temperature: 27.1,
+                timestamp: '2015-09-01T16:00:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 19,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '62',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:10:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:38 GMT' },
+             statusCode: 201,
+             body: { temperature: 27.3, timestamp: '2015-09-01T16:10:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 20,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '80',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:20:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:38 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 17.1,
+                temperature: 27.5,
+                timestamp: '2015-09-01T16:20:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 23,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '80',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T17:00:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:38 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 18.3,
+                temperature: 28.1,
+                timestamp: '2015-09-01T17:00:00.000Z' } } },
+        { type: 'request',
+          data:
+           { debugId: 24,
+             uri:
+              'http://127.0.0.1:8000/stats?stat=min&stat=max&stat=average&metric=temperature&fromDateTime=2015-09-01T16%3A00%3A00.000Z&toDateTime=2015-09-01T17%3A00%3A00.000Z',
+             method: 'get',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-length': 0 } } },
+        { type: 'response',
+          data:
+           { debugId: 24,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '175',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:38 GMT' },
+             statusCode: 200,
+             body:
+              [ { metric: 'temperature', stat: 'min', value: 27.1 },
+                { metric: 'temperature', stat: 'max', value: 27.4 },
+                { metric: 'temperature', stat: 'average', value: 27.3 } ] } } ]
+      ══════ end request log ══════
+
+✔ Scenario: Get stats for a sparsely reported metric
+✔ Scenario: Get stats for a metric that has never been reported
+- Scenario: get stats for all metrics
+  ✔ Given I have submitted new measurements as follows:
+        | timestamp                  | temperature | dewPoint |
+        | "2015-09-01T16:00:00.000Z" | 27.1        | 16.9     |
+        | "2015-09-01T16:10:00.000Z" | 27.3        |          |
+        | "2015-09-01T16:20:00.000Z" | 27.5        | 17.1     |
+        | "2015-09-01T16:30:00.000Z" | 27.4        | 17.3     |
+        | "2015-09-01T16:40:00.000Z" | 27.2        |          |
+        | "2015-09-01T17:00:00.000Z" | 28.1        | 18.3     |
+  ? When I get stats with the parameters:
+        | param        | value                    |
+        | stat         | all                      |
+        | metric       | temperature              |
+        | fromDateTime | 2015-09-01T16:00:00.000Z |
+        | toDateTime   | 2015-09-01T17:00:00.000Z |
+  - Then the response has a status code of 200
+  - And the response body is an array of:
+        | metric        | stat      | value |
+        | "temperature" | "min"     | 27.1  |
+        | "temperature" | "max"     | 28.1  |
+        | "temperature" | "average" | 27.43 |
+
+      ═════ begin console log ═════
+       * Serving Flask app "weathertracker" (lazy loading)
+       * Environment: production
+         WARNING: Do not use the development server in a production environment.
+         Use a production WSGI server instead.
+       * Debug mode: off
+       * Running on http://0.0.0.0:8000/ (Press CTRL+C to quit)
+      127.0.0.1 - - [25/Feb/2019 15:54:41] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:41] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:41] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:41] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:41] "POST /measurements HTTP/1.1" 201 -
+      127.0.0.1 - - [25/Feb/2019 15:54:41] "POST /measurements HTTP/1.1" 201 -
+
+      ══════ end console log ══════
+
+      ═════ begin request log ═════
+      [ { type: 'request',
+          data:
+           { debugId: 39,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 75 },
+             body:
+              '{"timestamp":"2015-09-01T16:00:00.000Z","temperature":27.1,"dewPoint":16.9}' } },
+        { type: 'request',
+          data:
+           { debugId: 40,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 59 },
+             body:
+              '{"timestamp":"2015-09-01T16:10:00.000Z","temperature":27.3}' } },
+        { type: 'request',
+          data:
+           { debugId: 41,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 75 },
+             body:
+              '{"timestamp":"2015-09-01T16:20:00.000Z","temperature":27.5,"dewPoint":17.1}' } },
+        { type: 'request',
+          data:
+           { debugId: 42,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 75 },
+             body:
+              '{"timestamp":"2015-09-01T16:30:00.000Z","temperature":27.4,"dewPoint":17.3}' } },
+        { type: 'request',
+          data:
+           { debugId: 43,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 59 },
+             body:
+              '{"timestamp":"2015-09-01T16:40:00.000Z","temperature":27.2}' } },
+        { type: 'request',
+          data:
+           { debugId: 44,
+             uri: 'http://127.0.0.1:8000/measurements',
+             method: 'post',
+             headers:
+              { host: '127.0.0.1:8000',
+                accept: 'application/json',
+                'content-type': 'application/json',
+                'content-length': 75 },
+             body:
+              '{"timestamp":"2015-09-01T17:00:00.000Z","temperature":28.1,"dewPoint":18.3}' } },
+        { type: 'response',
+          data:
+           { debugId: 41,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '80',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:20:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:41 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 17.1,
+                temperature: 27.5,
+                timestamp: '2015-09-01T16:20:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 42,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '80',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:30:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:41 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 17.3,
+                temperature: 27.4,
+                timestamp: '2015-09-01T16:30:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 39,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '80',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:00:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:41 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 16.9,
+                temperature: 27.1,
+                timestamp: '2015-09-01T16:00:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 44,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '80',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T17:00:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:41 GMT' },
+             statusCode: 201,
+             body:
+              { dewPoint: 18.3,
+                temperature: 28.1,
+                timestamp: '2015-09-01T17:00:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 43,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '62',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:40:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:41 GMT' },
+             statusCode: 201,
+             body: { temperature: 27.2, timestamp: '2015-09-01T16:40:00.000Z' } } },
+        { type: 'response',
+          data:
+           { debugId: 40,
+             headers:
+              { 'content-type': 'application/json',
+                'content-length': '62',
+                location:
+                 'http://127.0.0.1:8000/measurements/2015-09-01T16:10:00.000Z',
+                server: 'Werkzeug/0.14.1 Python/2.7.15',
+                date: 'Mon, 25 Feb 2019 23:54:41 GMT' },
+             statusCode: 201,
+             body: { temperature: 27.3, timestamp: '2015-09-01T16:10:00.000Z' } } } ]
+      ══════ end request log ══════
+
+✔ Scenario: Get stats for more than one metric
+
+10 scenarios (2 failed, 1 undefined, 7 passed)
+34 steps (2 failed, 1 undefined, 2 skipped, 29 passed)
+0m10.659s
+
+═════ begin new scenarios ═════
+
+Scenario: get stats for all metrics
+  Given I have submitted new measurements as follows:
+      | timestamp                  | temperature | dewPoint |
+      | "2015-09-01T16:00:00.000Z" | 27.1        | 16.9     |
+      | "2015-09-01T16:10:00.000Z" | 27.3        |          |
+      | "2015-09-01T16:20:00.000Z" | 27.5        | 17.1     |
+      | "2015-09-01T16:30:00.000Z" | 27.4        | 17.3     |
+      | "2015-09-01T16:40:00.000Z" | 27.2        |          |
+      | "2015-09-01T17:00:00.000Z" | 28.1        | 18.3     |
+        When I get stats with the parameters:
+      | param        | value                    |
+      | stat         | all                      |
+      | metric       | temperature              |
+      | fromDateTime | 2015-09-01T16:00:00.000Z |
+      | toDateTime   | 2015-09-01T17:00:00.000Z |
+        Then the response has a status code of 200
+  And the response body is an array of:
+      | metric        | stat      | value |
+      | "temperature" | "min"     | 27.1  |
+      | "temperature" | "max"     | 28.1  |
+      | "temperature" | "average" | 27.43 |
+      
+══════ end new scenarios ══════
