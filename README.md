@@ -23,4 +23,3 @@ install [NodeJS][] v8 or greater in addition to Python, make, and pipenv
 
 [NodeJS]: https://nodejs.org/
 # weather-app-api
-# weather-app-api
